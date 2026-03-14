@@ -8,13 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const serviceItems = document.querySelectorAll('.service-item');
 
   serviceItems.forEach(item => {
-    item.addEventListener('click', () => {
+    const header = item.querySelector('.service-header');
+    header.addEventListener('click', () => {
       const wasActive = item.classList.contains('active');
 
-      // Deactivate all
+      // Close all
       serviceItems.forEach(si => si.classList.remove('active'));
 
-      // Toggle clicked
+      // Open clicked (unless it was already open)
       if (!wasActive) {
         item.classList.add('active');
       }
@@ -64,5 +65,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   sections.forEach(section => observer.observe(section));
+
+  // --- Monogram Marquee ---
+  const strip = document.querySelector('.monogram-strip');
+  const inner = document.querySelector('.monogram-strip-inner');
+  const monoSet = inner.querySelector('.mono-set');
+
+  const baseSpeed = 90; // px per second
+  const hoverSpeed = 600; // faster
+  let currentSpeed = baseSpeed;
+  let targetSpeed = baseSpeed;
+  let offset = 0;
+  let lastTime = null;
+
+  strip.addEventListener('mouseenter', () => { targetSpeed = hoverSpeed; });
+  strip.addEventListener('mouseleave', () => { targetSpeed = baseSpeed; });
+
+  function marqueeLoop(timestamp) {
+    if (lastTime === null) lastTime = timestamp;
+    const delta = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    // Smooth speed interpolation
+    currentSpeed += (targetSpeed - currentSpeed) * Math.min(delta * 5, 1);
+
+    offset -= currentSpeed * delta;
+    const setWidth = monoSet.offsetWidth;
+    if (offset <= -setWidth) offset += setWidth;
+
+    inner.style.transform = `translate3d(${offset}px, 0, 0)`;
+    requestAnimationFrame(marqueeLoop);
+  }
+
+  requestAnimationFrame(marqueeLoop);
 
 });
