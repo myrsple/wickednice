@@ -35,12 +35,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Language Toggle ---
+  // --- Hamburger Menu ---
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  const closeNav = () => {
+    if (hamburger) hamburger.classList.remove('is-open');
+    if (mobileNav) mobileNav.classList.remove('is-open');
+    document.body.style.overflow = '';
+  };
+
+  if (hamburger && mobileNav) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('is-open');
+      mobileNav.classList.toggle('is-open');
+      document.body.style.overflow = mobileNav.classList.contains('is-open') ? 'hidden' : '';
+    });
+
+    // Close button inside panel
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    if (mobileNavClose) {
+      mobileNavClose.addEventListener('click', closeNav);
+    }
+
+    // Close mobile nav on hash link click
+    mobileNav.querySelectorAll('.mobile-nav-link[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeNav();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          const menuHeight = document.querySelector('.menu').offsetHeight;
+          const targetTop = target.getBoundingClientRect().top + window.scrollY - menuHeight;
+          window.scrollTo({ top: targetTop, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Close on page link click (non-hash links)
+    mobileNav.querySelectorAll('.mobile-nav-link:not([href^="#"])').forEach(link => {
+      link.addEventListener('click', closeNav);
+    });
+  }
+
+  // --- Language Toggle (all instances) ---
   const langBtns = document.querySelectorAll('.lang-btn');
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      langBtns.forEach(b => b.classList.remove('lang-btn--active'));
-      btn.classList.add('lang-btn--active');
+      // Sync all lang buttons across menu and mobile nav
+      const lang = btn.textContent.trim();
+      langBtns.forEach(b => {
+        b.classList.toggle('lang-btn--active', b.textContent.trim() === lang);
+      });
     });
   });
 
@@ -98,5 +144,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   requestAnimationFrame(marqueeLoop);
+
+  // --- Projects Page Accordion ---
+  const projItems = document.querySelectorAll('.proj-item');
+
+  projItems.forEach(item => {
+    const header = item.querySelector('.proj-header');
+    const closeBtn = item.querySelector('.proj-close');
+
+    if (header) {
+      header.addEventListener('click', () => {
+        const wasActive = item.classList.contains('active');
+
+        // Close all
+        projItems.forEach(pi => pi.classList.remove('active'));
+
+        // Toggle clicked
+        if (!wasActive) {
+          item.classList.add('active');
+          // Scroll to the project header
+          const menuHeight = document.querySelector('.menu').offsetHeight;
+          const headerTop = item.getBoundingClientRect().top + window.scrollY - menuHeight - 10;
+          window.scrollTo({ top: headerTop, behavior: 'smooth' });
+        }
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        item.classList.remove('active');
+      });
+    }
+  });
 
 });
