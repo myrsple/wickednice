@@ -5,20 +5,21 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // --- Service Accordion ---
-  const serviceItems = document.querySelectorAll('.service-item');
+  document.querySelectorAll('.services-list').forEach(list => {
+    const items = list.querySelectorAll('.service-item');
+    items.forEach(item => {
+      const header = item.querySelector('.service-header');
+      header.addEventListener('click', () => {
+        const wasActive = item.classList.contains('active');
 
-  serviceItems.forEach(item => {
-    const header = item.querySelector('.service-header');
-    header.addEventListener('click', () => {
-      const wasActive = item.classList.contains('active');
+        // Close all within this list
+        items.forEach(si => si.classList.remove('active'));
 
-      // Close all
-      serviceItems.forEach(si => si.classList.remove('active'));
-
-      // Open clicked (unless it was already open)
-      if (!wasActive) {
-        item.classList.add('active');
-      }
+        // Open clicked (unless it was already open)
+        if (!wasActive) {
+          item.classList.add('active');
+        }
+      });
     });
   });
 
@@ -82,10 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const langBtns = document.querySelectorAll('.lang-btn');
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Sync all lang buttons across menu and mobile nav
-      const lang = btn.textContent.trim();
+      // Clicking any button toggles all lang buttons to the opposite state
       langBtns.forEach(b => {
-        b.classList.toggle('lang-btn--active', b.textContent.trim() === lang);
+        b.classList.toggle('lang-btn--active');
       });
     });
   });
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
         menuLinks.forEach(link => {
-          link.style.opacity = link.getAttribute('href') === `#${id}` ? '0.5' : '';
+          link.classList.toggle('menu-link--current', link.getAttribute('href') === `#${id}`);
         });
       }
     });
