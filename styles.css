@@ -998,6 +998,370 @@ html {
 }
 
 /* =========================================
+   RESPONSIVE — LAPTOP (769px – 1919px)
+   Proportional scale: every value = base_px / 1920 * 100 vw
+   ========================================= */
+@media (max-width: 1919px) and (min-width: 769px) {
+
+  /* --- Base --- */
+  body {
+    min-width: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  /* --- Logo Section --- */
+  .logo-section {
+    height: 19.063vw;
+    padding: 1.042vw 1.354vw 0;
+    margin-bottom: -1.042vw;
+  }
+
+  /* --- Hero Image --- */
+  .hero-image {
+    height: 34.01vw;
+  }
+
+  /* --- Description --- */
+  .description {
+    padding: 3.125vw 1.354vw;
+    min-height: 15.104vw;
+  }
+
+  .description p {
+    font-size: 2.5vw;
+  }
+
+  /* --- Gallery Large --- */
+  .gallery-large {
+    gap: 1.354vw;
+  }
+
+  .gallery-large-item {
+    height: 49.323vw;
+  }
+
+  /* --- Gallery Small --- */
+  .gallery-small {
+    margin-top: 1.042vw;
+  }
+
+  .gallery-small-item {
+    height: 24.01vw;
+    flex-shrink: 1;
+  }
+
+  .gs-1 { width: 20.521%; }
+  .gs-2 { width: 20.885%; }
+  .gs-3 { width: 20.417%; margin-left: 1.458%; }
+  .gs-4 { width: 20.885%; margin-left: 1.667%; }
+
+  .gallery-small-monogram {
+    width: 14.167%;
+  }
+
+  .gallery-small-monogram img {
+    width: 12.083vw;
+    height: 5.26vw;
+  }
+
+  /* --- Gallery Link --- */
+  .gallery-link {
+    padding: 1.042vw 1.875vw 2.344vw;
+  }
+
+  .gallery-link a {
+    font-size: 2.083vw;
+  }
+
+  .gallery-link-arrow {
+    width: 1.563vw;
+  }
+
+  /* --- Services --- */
+  .services-label {
+    font-size: 2.083vw;
+    padding: 2.188vw 0 1.042vw 1.146vw;
+  }
+
+  .service-header {
+    height: 10.052vw;
+    padding-left: 1.25vw;
+  }
+
+  .service-arrow {
+    width: 6.979vw;
+  }
+
+  .service-arrow img {
+    width: 3.646vw;
+  }
+
+  .service-name {
+    font-size: 6.667vw;
+  }
+
+  .services-description {
+    padding: 2.604vw;
+  }
+
+  .services-description p {
+    font-size: 1.875vw;
+  }
+
+  .services-image {
+    height: 44.635vw;
+  }
+
+  /* --- Monogram Strip --- */
+  .monogram-strip {
+    height: 15.573vw;
+  }
+
+  .mono-tile {
+    height: 9.844vw;
+  }
+
+  /* --- Who We Are --- */
+  .who-label {
+    font-size: 2.083vw;
+    padding: 0.521vw 1.146vw;
+  }
+
+  .who-description {
+    padding: 0 2.604vw 4.167vw;
+  }
+
+  .who-description p {
+    font-size: 1.875vw;
+  }
+
+  /* --- Team Members --- */
+  .team-member {
+    padding: 0 0 5.208vw 2.292vw;
+  }
+
+  .team-photo {
+    width: 20.885vw;
+    height: 24.01vw;
+  }
+
+  .team-info {
+    padding-left: 2.083vw;
+  }
+
+  .team-name {
+    font-size: 1.875vw;
+    margin-bottom: 0.781vw;
+  }
+
+  .team-name-divider {
+    margin-bottom: 1.302vw;
+  }
+
+  .team-bio p {
+    font-size: 1.875vw;
+  }
+
+  .team-experience {
+    margin-top: 3.125vw;
+  }
+
+  .team-exp-label {
+    font-size: 1.875vw;
+    margin-bottom: 0.521vw;
+  }
+
+  .team-experience ul {
+    padding-left: 2.813vw;
+  }
+
+  .team-experience li {
+    font-size: 1.875vw;
+    margin-bottom: 0.313vw;
+  }
+
+  /* --- Pre-Footer Image --- */
+  .pre-footer-image {
+    height: 44.896vw;
+  }
+
+  /* --- CTA --- */
+  .cta {
+    height: 10.052vw;
+  }
+
+  .cta-link {
+    font-size: 6.667vw;
+    padding-right: 2.5vw;
+    gap: 1.042vw;
+  }
+
+  .cta-arrow {
+    width: 3.646vw;
+  }
+
+  /* --- Footer --- */
+  .footer-top {
+    padding: 2.396vw 1.302vw 0;
+  }
+
+  .footer-menu-links {
+    margin-right: 5.208vw;
+  }
+
+  .footer-logo {
+    padding: 0 1.354vw 0.833vw;
+  }
+
+  .footer-logo img {
+    height: 18.542vw;
+  }
+
+  .footer-copyright {
+    bottom: 2.083vw;
+    right: 1.25vw;
+  }
+
+  /* =========================================
+     PROJECTS PAGE — LAPTOP
+     ========================================= */
+
+  .proj-hero {
+    height: 24.844vw;
+  }
+
+  .proj-intro {
+    padding: 2.344vw 1.302vw 2.083vw;
+  }
+
+  .proj-intro p {
+    font-size: 2.5vw;
+  }
+
+  .proj-list-label {
+    font-size: 2.083vw;
+    padding: 0 0 1.042vw 0;
+  }
+
+  .proj-header {
+    padding: 1.042vw 0 0.521vw;
+  }
+
+  .proj-arrow {
+    width: 6.979vw;
+  }
+
+  .proj-arrow img {
+    width: 3.646vw;
+  }
+
+  .proj-name {
+    font-size: 6.667vw;
+  }
+
+  .proj-category {
+    font-size: 1.875vw;
+    padding-right: 2.5vw;
+  }
+
+  .proj-thumbs {
+    height: 12.396vw;
+  }
+
+  .proj-detail {
+    padding-bottom: 3.125vw;
+  }
+
+  .proj-detail-text {
+    padding: 1.563vw 2.24vw 0;
+  }
+
+  .proj-detail-text p {
+    font-size: 1.875vw;
+  }
+
+  .proj-detail-credits {
+    padding: 2.083vw 2.24vw 0;
+  }
+
+  .proj-detail-credits p {
+    font-size: 1.875vw;
+  }
+
+  .proj-detail-gallery {
+    grid-template-columns: 20.5% 1fr 25.3%;
+    gap: 1.042vw;
+    padding: 2.083vw 2.24vw 0;
+  }
+
+  .proj-detail-col {
+    gap: 1.042vw;
+  }
+
+  .proj-detail-mid {
+    gap: 1.042vw;
+  }
+
+  .proj-close {
+    bottom: 3.125vw;
+    right: 2.604vw;
+    width: 6.667vw;
+    height: 6.667vw;
+    font-size: 5vw;
+  }
+
+  /* =========================================
+     CONTACT PAGE — LAPTOP
+     ========================================= */
+
+  .contact-section {
+    padding-bottom: 3.125vw;
+  }
+
+  .contact-heading {
+    font-size: 6.667vw;
+    padding: 1.823vw 0 1.563vw 2.24vw;
+  }
+
+  .contact-info {
+    padding: 0 0 2.083vw 2.604vw;
+  }
+
+  .contact-info p {
+    font-size: 1.875vw;
+  }
+
+  .contact-form {
+    margin: 0 2.24vw 1.823vw;
+  }
+
+  .contact-input,
+  .contact-textarea {
+    font-size: 1.875vw;
+    padding: 1.042vw 1.198vw;
+  }
+
+  .contact-textarea {
+    min-height: 15.625vw;
+  }
+
+  .contact-field--message {
+    min-height: 7.813vw;
+  }
+
+  .contact-submit {
+    bottom: -2.76vw;
+    width: 18.75vw;
+    height: 2.76vw;
+    font-size: 1.875vw;
+  }
+
+}
+
+/* =========================================
    RESPONSIVE — MOBILE (≤ 768px)
    ========================================= */
 @media (max-width: 768px) {
