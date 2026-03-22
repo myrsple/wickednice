@@ -112,6 +112,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => observer.observe(section));
 
+  // When scrolled to the very bottom, activate the last section's nav link
+  // (only matters on desktop where .menu-nav is visible)
+  window.addEventListener('scroll', () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2) {
+      const lastSection = sections[sections.length - 1];
+      if (lastSection) {
+        const id = lastSection.getAttribute('id');
+        menuLinks.forEach(link => {
+          link.classList.toggle('menu-link--current', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    }
+  }, { passive: true });
+
   // --- Monogram Marquee ---
   const strip = document.querySelector('.monogram-strip');
   const inner = document.querySelector('.monogram-strip-inner');
