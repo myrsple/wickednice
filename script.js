@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuLinks = document.querySelectorAll('.menu-link[href^="#"]');
 
   const observerOptions = {
-    rootMargin: '-20% 0px -60% 0px',
+    rootMargin: '-5% 0px -80% 0px',
     threshold: 0
   };
 
