@@ -39,19 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Service Accordion ---
   document.querySelectorAll('.services-list').forEach(list => {
-    const items = list.querySelectorAll('.service-item');
-    items.forEach(item => {
-      const header = item.querySelector('.service-header');
-      header.addEventListener('click', () => {
-        const wasActive = item.classList.contains('active');
-
-        // Close all within this list
-        items.forEach(si => si.classList.remove('active'));
-
-        // Open clicked (unless it was already open)
-        if (!wasActive) {
-          item.classList.add('active');
-        }
+    list.querySelectorAll('.service-item').forEach(item => {
+      item.querySelector('.service-header').addEventListener('click', () => {
+        item.classList.toggle('active');
       });
     });
   });
@@ -137,8 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         if (bouncing) return;
-        var isEn = btn.textContent.trim() === 'EN';
-        if (isEn) return; // already on EN, do nothing
 
         bouncing = true;
         allBtns.forEach(function (b) { b.classList.toggle('lang-btn--active'); });
@@ -276,12 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Projects Page Accordion ---
-  const projItems = document.querySelectorAll('.proj-item');
-
-  projItems.forEach(item => {
+  document.querySelectorAll('.proj-item').forEach(item => {
     const header = item.querySelector('.proj-header');
     const closeBtn = item.querySelector('.proj-close');
-
     const detail = item.querySelector('.proj-detail');
 
     // Show close button after accordion opens
@@ -295,43 +280,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openProject() {
-      const wasActive = item.classList.contains('active');
-      const hadOtherOpen = !wasActive && document.querySelector('.proj-item.active');
+      if (item.classList.contains('active')) return;
+      item.classList.add('active');
 
-      // Close all and hide close buttons
-      projItems.forEach(pi => {
-        pi.classList.remove('active');
-        const btn = pi.querySelector('.proj-close');
-        if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
-      });
-
-      // Toggle clicked
-      if (!wasActive) {
-        item.classList.add('active');
-
-        // Pin the header to a stable viewport position while layout shifts
-        const menuHeight = document.querySelector('.menu').offsetHeight;
-        const targetY = menuHeight + 10;
-        const start = performance.now();
-
-        function pinScroll() {
-          const diff = item.getBoundingClientRect().top - targetY;
-          if (Math.abs(diff) > 1) {
-            window.scrollBy(0, diff);
-          }
-          if (performance.now() - start < 600) {
-            requestAnimationFrame(pinScroll);
-          }
-        }
-
-        if (hadOtherOpen) {
-          requestAnimationFrame(pinScroll);
-        } else {
-          // First open – smooth scroll to header
-          const headerTop = item.getBoundingClientRect().top + window.scrollY - targetY;
-          window.scrollTo({ top: headerTop, behavior: 'instant' });
-        }
-      }
+      const menuHeight = document.querySelector('.menu').offsetHeight;
+      const headerTop = item.getBoundingClientRect().top + window.scrollY - menuHeight - 10;
+      window.scrollTo({ top: headerTop, behavior: 'instant' });
     }
 
     if (header) {
@@ -351,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeBtn.style.opacity = '0';
         closeBtn.style.pointerEvents = 'none';
 
-        // Scroll to the project header as it closes
         const menuHeight = document.querySelector('.menu').offsetHeight;
         const headerTop = item.getBoundingClientRect().top + window.scrollY - menuHeight - 10;
         window.scrollTo({ top: headerTop, behavior: 'instant' });
