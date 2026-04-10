@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const label = Array.from(labels).find(l => l.offsetParent !== null || getComputedStyle(l).display !== 'none');
         const scrollTarget = label || target;
         const targetTop = scrollTarget.getBoundingClientRect().top + window.scrollY - menuHeight - 10;
-        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+        window.scrollTo({ top: targetTop, behavior: 'instant' });
       }
     });
   });
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target) {
           const menuHeight = document.querySelector('.menu').offsetHeight;
           const targetTop = target.getBoundingClientRect().top + window.scrollY - menuHeight;
-          window.scrollTo({ top: targetTop, behavior: 'smooth' });
+          window.scrollTo({ top: targetTop, behavior: 'instant' });
         }
       });
     });
@@ -115,29 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Language Switcher ---
+  // --- Language Switcher (teaser – bounces back to EN) ---
   (function () {
-    var path = window.location.pathname;
-    var isCs = /\/cs(\/|\/[^/]*)?$/.test(path);
-    var page = path.split('/').pop();
-    if (!page || !page.includes('.')) page = '';
-
-    // First visit: auto-detect Czech browser
-    if (!localStorage.getItem('wn-lang')) {
-      var browserLang = (navigator.language || '').toLowerCase();
-      localStorage.setItem('wn-lang', browserLang.startsWith('cs') ? 'cs' : 'en');
-      if (browserLang.startsWith('cs') && !isCs) {
-        window.location.replace('cs/' + page);
-        return;
-      }
-    }
-
-    // Ensure correct active state without animation (handles cached HTML)
     var allBtns = document.querySelectorAll('.lang-btn');
+
+    // Ensure EN is always active on load
     allBtns.forEach(function (btn) {
       btn.style.transition = 'none';
-      var isCzBtn = btn.textContent.trim() === 'CZ';
-      btn.classList.toggle('lang-btn--active', isCzBtn === isCs);
+      var isEn = btn.textContent.trim() === 'EN';
+      btn.classList.toggle('lang-btn--active', isEn);
     });
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
@@ -145,37 +131,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Clicking any lang button toggles to the other language
-    var navigating = false;
+    // Click CZ: toggle to CZ briefly, then bounce back to EN
+    var bouncing = false;
     document.querySelectorAll('.lang-btn').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
-        if (navigating) return;
-        navigating = true;
+        if (bouncing) return;
+        var isEn = btn.textContent.trim() === 'EN';
+        if (isEn) return; // already on EN, do nothing
 
-        // Animate the toggle
-        document.querySelectorAll('.lang-btn').forEach(function (b) {
-          b.classList.toggle('lang-btn--active');
-        });
+        bouncing = true;
+        allBtns.forEach(function (b) { b.classList.toggle('lang-btn--active'); });
 
-        // Save scroll position and open accordions
-        var langState = { scrollY: window.scrollY, active: [] };
-        document.querySelectorAll('.service-item.active, .proj-item.active').forEach(function (el) {
-          var key = el.getAttribute('data-service') || el.getAttribute('data-project');
-          if (key) langState.active.push(key);
-        });
-        sessionStorage.setItem('wn-lang-state', JSON.stringify(langState));
-
-        // Navigate after the CSS transition completes
         setTimeout(function () {
-          if (isCs) {
-            localStorage.setItem('wn-lang', 'en');
-            window.location.href = '../' + page;
-          } else {
-            localStorage.setItem('wn-lang', 'cs');
-            window.location.href = 'cs/' + page;
-          }
-        }, 200);
+          allBtns.forEach(function (b) { b.classList.toggle('lang-btn--active'); });
+          bouncing = false;
+        }, 300);
       });
     });
   })();
@@ -358,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           // First open – smooth scroll to header
           const headerTop = item.getBoundingClientRect().top + window.scrollY - targetY;
-          window.scrollTo({ top: headerTop, behavior: 'smooth' });
+          window.scrollTo({ top: headerTop, behavior: 'instant' });
         }
       }
     }
@@ -383,53 +354,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Scroll to the project header as it closes
         const menuHeight = document.querySelector('.menu').offsetHeight;
         const headerTop = item.getBoundingClientRect().top + window.scrollY - menuHeight - 10;
-        window.scrollTo({ top: headerTop, behavior: 'smooth' });
+        window.scrollTo({ top: headerTop, behavior: 'instant' });
 
         item.classList.remove('active');
       });
     }
   });
 
-  // --- Momentum Scroll (desktop only) ---
-  if (!('ontouchstart' in window) && window.innerWidth > 768) {
-    document.documentElement.style.scrollBehavior = 'auto';
-    let velocity = 0;
-    let remainder = 0;
-    let animating = false;
-    const resistance = 0.4;
-    const decel = 0.7;
-    const accel = 0.88;
 
-    window.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      var targetV = e.deltaY * resistance;
-      velocity = velocity + (targetV - velocity) * accel;
-      if (!animating) {
-        animating = true;
-        remainder = 0;
-        requestAnimationFrame(momentumStep);
-      }
-    }, { passive: false });
-
-    function momentumStep() {
-      var absV = Math.abs(velocity);
-      if (absV < 1.5) {
-        velocity = 0;
-        animating = false;
-        return;
-      }
-      var drop = absV < 2 ? absV * 0.5 : decel;
-      velocity += velocity > 0 ? -drop : drop;
-
-      remainder += velocity;
-      var px = Math.trunc(remainder);
-      if (px !== 0) {
-        window.scrollBy(0, px);
-        remainder -= px;
-      }
-      requestAnimationFrame(momentumStep);
-    }
-  }
 
   // --- Lightbox ---
   const lightbox = document.getElementById('lightbox');
@@ -478,6 +410,31 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'ArrowRight') navigate(1);
     });
   }
+
+  // --- Open Project Accordion from URL Hash ---
+  (function () {
+    var hash = window.location.hash.slice(1);
+    if (!hash) return;
+    var item = document.querySelector('.proj-item#' + CSS.escape(hash));
+    if (!item) return;
+
+    // Close any open project
+    document.querySelectorAll('.proj-item.active').forEach(function (pi) {
+      pi.classList.remove('active');
+      var btn = pi.querySelector('.proj-close');
+      if (btn) { btn.style.opacity = '0'; btn.style.pointerEvents = 'none'; }
+    });
+
+    // Open the target project
+    item.classList.add('active');
+
+    // Scroll to it after layout settles
+    requestAnimationFrame(function () {
+      var menuHeight = document.querySelector('.menu').offsetHeight;
+      var top = item.getBoundingClientRect().top + window.scrollY - menuHeight - 10;
+      window.scrollTo({ top: top, behavior: 'instant' });
+    });
+  })();
 
   // --- Contact Form (Formspree AJAX) ---
   var contactForm = document.querySelector('.contact-form');
