@@ -279,8 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function openProject() {
-      if (item.classList.contains('active')) return;
+    function toggleProject() {
+      if (item.classList.contains('active')) {
+        if (closeBtn) { closeBtn.style.opacity = '0'; closeBtn.style.pointerEvents = 'none'; }
+        item.classList.remove('active');
+        return;
+      }
       item.classList.add('active');
 
       const menuHeight = document.querySelector('.menu').offsetHeight;
@@ -289,13 +293,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (header) {
-      header.addEventListener('click', openProject);
+      header.addEventListener('click', toggleProject);
     }
 
     const thumbs = item.querySelector('.proj-thumbs');
     if (thumbs) {
       thumbs.style.cursor = 'pointer';
-      thumbs.addEventListener('click', openProject);
+      thumbs.addEventListener('click', toggleProject);
       thumbs.addEventListener('mouseenter', () => item.classList.add('thumbs-hover'));
       thumbs.addEventListener('mouseleave', () => item.classList.remove('thumbs-hover'));
     }

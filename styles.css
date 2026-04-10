@@ -1818,7 +1818,7 @@ img {
   }
 
   .services-description p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.0001;
   }
 
@@ -1867,7 +1867,7 @@ img {
   }
 
   .who-description p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.0001;
   }
 
@@ -1900,7 +1900,7 @@ img {
   }
 
   .team-bio p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.0001;
     margin-bottom: 4px;
   }
@@ -1910,7 +1910,7 @@ img {
   }
 
   .team-exp-label {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .team-experience ul {
@@ -1918,7 +1918,7 @@ img {
   }
 
   .team-experience li {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 3px;
   }
 
@@ -1987,8 +1987,8 @@ img {
     bottom: auto;
     right: auto;
     font-size: 16px;
-    text-align: right;
-    padding: 4px 9px 6px;
+    text-align: left;
+    padding: 4px 11px 11px;
   }
 
   /* =========================================
@@ -2071,7 +2071,7 @@ img {
   }
 
   .proj-detail-text p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.0001;
   }
 
@@ -2080,7 +2080,7 @@ img {
   }
 
   .proj-detail-credits p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.0001;
   }
 
@@ -2131,7 +2131,7 @@ img {
 
   .contact-input,
   .contact-textarea {
-    font-size: 14px;
+    font-size: 16px;
     padding: 12px 10px;
   }
 
